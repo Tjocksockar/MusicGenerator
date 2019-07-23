@@ -33,7 +33,7 @@ def extract_data():
 				str_list.append('rest')
 				str_list.append(element.duration.quarterLength)
 				#print(str_list[-1])
-	print('list length = ', len(str_list))
+		print('list length = ', len(str_list))
 	return str_list
 
 # Create mappings from a word to an index and back
@@ -64,3 +64,6 @@ def formate_data(processed_data, class_to_ind, seq_len, n_classes):
 
 	labels = to_categorical(labels)
 	return input_data, labels
+
+# Given a by the model predicted list, this creates the midi file
+def create_midi(predicted_list): 
