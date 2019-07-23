@@ -2,9 +2,9 @@ import tensorflow as tf
 
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense, LSTM, Dropout, Activation
+from tensorflow.python.keras.optimizers import Adam
 
-
-def create_model(input_data, n_classes): 
+def create_model(input_data, n_classes, eta, eta_decay): 
 	model = Sequential()
 	model.add(LSTM(
 		256, 
@@ -23,9 +23,10 @@ def create_model(input_data, n_classes):
 		512, 
 		activation = 'relu'
 	))
-	model.add(Dense(512))
 	model.add(Dropout(0.25))
-	model.add(Dense(n_classes))
-	model.add(Activation('softmax'))
-	model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
+	model.add(Dense(512, activation='relu'))
+	model.add(Dropout(0.25))
+	model.add(Dense(n_classes, activation='softmax'))
+	opt = Adam(lr=eta, decay=eta_decay)
+	model.compile(loss='categorical_crossentropy', optimizer=opt)
 	return model
