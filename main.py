@@ -11,8 +11,8 @@ class_to_ind, ind_to_class = create_dictionaries(processed_data) # mapping strin
 # Setting parameters
 n_classes = len(class_to_ind)
 n_data = len(processed_data)
-seq_len = 100
-n_batches = 128
+seq_len = 128
+n_batches = 256
 n_epochs = 8
 print('='*70)
 print(n_classes)
@@ -21,13 +21,16 @@ eta_decay = 1e-6
 
 # Creating input sequences and labels for the network 
 # go from string to numerical data
-input_data, labels = formate_data(processed_data, class_to_ind, seq_len, n_classes)
+input_data, labels = format_data(processed_data, class_to_ind, seq_len, n_classes)
 print('The shape of the input data numpy array is ', input_data.shape)
 print()
 print(processed_data[0:100])
 print('='*70)
 
-# """
+# Test result when converting processed data back to midi
+#create_midi(processed_data[0:400])
+
+"""
 ### ========== Training the network ======== ###
 
 # Creating model architecture 
@@ -59,7 +62,7 @@ model.fit(
 ### ========== Testing the network ======== ###
 
 # Create the model with saved weights loaded 
-weights_path = 'saved_weights/model_at_05_3.7352.hdf5' # check before running
+weights_path = 'saved_weights/model_at_08_3.6328.hdf5' # check before running
 trained_model = create_model(input_data, n_classes, eta, eta_decay)
 trained_model.load_weights(weights_path) 
 
@@ -73,6 +76,7 @@ predictions = [] # holding the generated music before turned to midi formate
 for model_prediction in range(n_predictions): 
 	shaped_input = np.reshape(pred_input, (1, seq_len, 1))
 	prediction = trained_model.predict(shaped_input, verbose=0)
+	#note_ind = np.argmax(prediction)
 	note_ind = next_sample(prediction)
 	note = ind_to_class[note_ind]
 	predictions.append(note)
@@ -85,4 +89,4 @@ print(len(predictions))
 print(predictions[0:20])
 print('='*70)
 create_midi(predictions)
-"""
+# """

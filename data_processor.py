@@ -41,7 +41,7 @@ def create_dictionaries(processed_data):
 	return class_to_ind, ind_to_class
 
 # Encodes words to one hot numpy representation compatible with Keras LSTM 
-def formate_data(processed_data, class_to_ind, seq_len, n_classes):
+def format_data(processed_data, class_to_ind, seq_len, n_classes):
 	numerical_data = []
 	for key in processed_data: 
 		numerical_data.append(class_to_ind[key])
@@ -78,9 +78,10 @@ def create_midi(predicted_list):
 				print(this_chord)
 				note = m21.note.Note(this_chord[0])
 				note.offset = time_elapsed
+				note.duration.quarterLength = duration
 				note.storedInstrument = m21.instrument.Piano()
 				m21_predictions.append(note)
-				time_elapsed += duration 
+				time_elapsed += 1.0
 			elif len(this_chord) > 1: # it is a chord
 				print(this_chord)
 				these_notes = []
@@ -90,8 +91,9 @@ def create_midi(predicted_list):
 					these_notes.append(note)
 				chord = m21.chord.Chord(these_notes)
 				chord.offset = time_elapsed
+				chord.duration.quarterLength = duration
 				m21_predictions.append(chord)
-				time_elapsed += 0.5
+				time_elapsed += 1.0
 			this_chord = []
 		else: 
 			this_chord.append(element)
