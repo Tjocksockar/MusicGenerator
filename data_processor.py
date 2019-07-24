@@ -13,7 +13,7 @@ def extract_data():
 		print('='*70)
 		print(filename)
 		midi = m21.converter.parse(filename) # creating a midi object
-		notes_and_chords = midi.flat.notesAndRests # extracts notes, chords and rests only
+		notes_and_chords = midi.flat.notes # extracts notes, chords and rests only
 		#print(notes_and_chords.show('text'))
 		
 		# Convert the midi stream to strings in a list. 
@@ -27,10 +27,6 @@ def extract_data():
 				#str_list.append('.'.join(str(n) for n in element.pitches))
 				for note in element.pitches: 
 					str_list.append(str(note))
-				str_list.append(str(element.duration.quarterLength)+'*')
-				#print(str_list[-1])
-			elif isinstance(element,m21.note.Rest): 
-				str_list.append('rest')
 				str_list.append(str(element.duration.quarterLength)+'*')
 				#print(str_list[-1])
 		print('list length = ', len(str_list))
@@ -70,7 +66,7 @@ def create_midi(predicted_list):
 	time_elapsed = 0 # absolute time elapsed in the generated tune
 	m21_predictions = [] # will contain music21 notes, chords and rests
 	this_chord = []
-	for i, element in enumerate(predicted_list): 
+	for element in predicted_list: 
 		if '*' in element: # is a duration
 			duration = element.split('*')[0]
 			if '/' in duration: 
@@ -79,32 +75,23 @@ def create_midi(predicted_list):
 			else: 
 				duration = float(duration)
 			if len(this_chord) == 1: # it is a note or rest
-				if this_chord[0] == 'rest': 
-					rest = m21.note.Rest()
-					rest.offset = time_elapsed
-					rest.duration = duration 
-					m21_predictions.append(rest)
-				else: 
-					note = m21.note.Note(chord[0])
-					note.offset = time_elapsed
-					note.storedInstrument = instrument.Piano()
-					note.duration = duration
-					m21_predictions.append(note)
+				print(this_chord)
+				note = m21.note.Note(this_chord[0])
+				note.offset = time_elapsed
+				note.storedInstrument = m21.instrument.Piano()
+				m21_predictions.append(note)
+				time_elapsed += duration 
 			elif len(this_chord) > 1: # it is a chord
+				print(this_chord)
 				these_notes = []
 				for this_note in this_chord: 
-					if this_note == 'rest': 
-						pass
-					else: 
-						note = m21.note.Note(this_note)
-						note.storedInstrument = instrument.Piano()
-						these_notes.append(note)
-				if len(these_notes) > 0:
-					chord = m21.chord.Chord(these_notes)
-					chord.offset = time_elapsed
-					chord.duration = duration
-					m21_predictions.append(chord)
-			time_elapsed += duration
+					note = m21.note.Note(this_note)
+					note.storedInstrument = m21.instrument.Piano()
+					these_notes.append(note)
+				chord = m21.chord.Chord(these_notes)
+				chord.offset = time_elapsed
+				m21_predictions.append(chord)
+				time_elapsed += 0.5
 			this_chord = []
 		else: 
 			this_chord.append(element)
