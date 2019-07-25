@@ -1,6 +1,6 @@
 from tensorflow.python.keras.callbacks import ModelCheckpoint
 
-from data_processor import *
+from simple_data_processor import *
 from model import *
 
 
@@ -11,9 +11,9 @@ class_to_ind, ind_to_class = create_dictionaries(processed_data) # mapping strin
 # Setting parameters
 n_classes = len(class_to_ind)
 n_data = len(processed_data)
-seq_len = 128
-n_batches = 256
-n_epochs = 8
+seq_len = 100
+n_batches = 128
+n_epochs = 10
 print('='*70)
 print(n_classes)
 eta = 1e-4 # initial learning rate
@@ -62,7 +62,7 @@ model.fit(
 ### ========== Testing the network ======== ###
 
 # Create the model with saved weights loaded 
-weights_path = 'saved_weights/model_at_08_3.6328.hdf5' # check before running
+weights_path = 'saved_weights/model_at_07_4.0332.hdf5' # check before running
 trained_model = create_model(input_data, n_classes, eta, eta_decay)
 trained_model.load_weights(weights_path) 
 
@@ -70,7 +70,7 @@ trained_model.load_weights(weights_path)
 pred_input = input_data[0, 0:seq_len, 0]
 pred_input = np.reshape(pred_input, (seq_len))
 
-n_predictions = 400 # number of notes/rests/durations to generate
+n_predictions = 1000 # number of notes/rests/durations to generate
 predictions = [] # holding the generated music before turned to midi formate
 
 for model_prediction in range(n_predictions): 
@@ -86,7 +86,7 @@ for model_prediction in range(n_predictions):
 print('='*70)
 print('Predictions finished. Starting convertion to midi file.')
 print(len(predictions))
-print(predictions[0:20])
+print(predictions[0:100])
 print('='*70)
 create_midi(predictions)
 # """

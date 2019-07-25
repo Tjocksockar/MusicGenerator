@@ -34,7 +34,7 @@ def create_model(input_data, n_classes, eta, eta_decay):
 	return model
 
 # alternative to np.argmax when choosing the next sample
-def next_sample(pred_vec, temperature=0.75):
+def next_sample(pred_vec, temperature=1.0):
 	pred_vec = np.asarray(pred_vec).astype('float64')
 	pred_vec = np.log(pred_vec) / temperature # the higher temperature, the more randomness
 	exp_pred = np.exp(pred_vec)
