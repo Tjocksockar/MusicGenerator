@@ -1,6 +1,6 @@
 from tensorflow.python.keras.callbacks import ModelCheckpoint
 
-from simple_data_processor import *
+from data_processor import *
 from model import *
 
 
@@ -62,7 +62,7 @@ model.fit(
 ### ========== Testing the network ======== ###
 
 # Create the model with saved weights loaded 
-weights_path = 'saved_weights/model_at_07_4.0332.hdf5' # check before running
+weights_path = 'saved_weights/model_at_10_4.0254.hdf5' # check before running
 trained_model = create_model(input_data, n_classes, eta, eta_decay)
 trained_model.load_weights(weights_path) 
 
