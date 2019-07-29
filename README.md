@@ -13,9 +13,11 @@ The music generator created so far is not very good but clearly performs better 
 1. create a folder in the root of the project called 'midi_data_in_use' and place the midi files you wish to use for training in it.
 2. In main.py, make sure that the section === Training the network === is not commented out. 
 3. Run main.py 
+4. For every epoch, the weights will be saved in the folder saved_weights
 
 ### Instructions for testing
 
 1. In main.py comment out the section === Training the network === and make sure that the section === Testing the network === is not commented out. 
 2. Change the first line in the section === Testing the network === so that the variable contains the right file name. The file name is loss dependent so it changes every time you wish to test a new trained network. 
 3. Run main.py
+4. To listen to the generated music, run generated_music.midi
