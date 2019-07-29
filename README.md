@@ -3,9 +3,9 @@
 The aim of this project is to create a music generator by training a simple LSTM model. 
 The training set contains midi files of piano music by Mozart. 
 The midi files are translated to text strings on the note level. 
-More specifically, each note is typed out in sequential order followed by its offset compared to the previous note. If more than one note is played at the same time, all notes are typed out before the offset is typed out. An example of a string is A3 0.5 C3 E3 G3 C2 1.0 A3 0.5. 
+More specifically, each note is typed out in sequential order followed by its offset compared to the previous note. If more than one note is played at the same time, all notes are typed out before the offset is typed out. An example of a string is A3 0.5 C3 E3 G3 C2 1.0 A3 0.5. The reason for choosing the note level is to limit the number of classes. However, others have achieved great results operating on the chord level as well. 
 
-The music generator created so far is not very good but clearly performs better than random. However, this is a project in progress so improvements might be yet to come. 
+The music generator created so far is not very good but clearly performs better than random. However, this is an on-going project so improvements might be yet to come. 
 
 
 ### Instructions for training
