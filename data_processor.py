@@ -9,7 +9,7 @@ from tensorflow.python.keras.utils import to_categorical
 # Right after each note, chord or rest element its corresponding duration is appended as frac of quarter note
 def extract_data(): 
 	str_list = []
-	for filename in glob.glob("midi_data/*.mid"):
+	for filename in glob.glob("midi_data_in_use/*.mid"):
 		print('='*70)
 		print(filename)
 		midi = m21.converter.parse(filename) # creating a midi object
@@ -97,7 +97,7 @@ def create_midi(predicted_list):
 				chord.duration.quarterLength = duration
 				m21_predictions.append(chord)
 				time_elapsed += 0.5
-			this_chord = []
+				this_chord = []
 		else: 
 			this_chord.append(element)
 	midi_stream = m21.stream.Stream(m21_predictions)
