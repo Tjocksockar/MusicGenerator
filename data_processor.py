@@ -36,10 +36,10 @@ def extract_data():
 
 # Create mappings from a word to an index and back
 def create_dictionaries(processed_data):
-	classes = set(processed_data)
+	classes = sorted(set(processed_data))
 	n_classes = len(classes)
-	class_to_ind = dict((word, ind) for ind, word in enumerate(classes))
-	ind_to_class = dict((ind, word) for ind, word in enumerate(classes))
+	class_to_ind = {note:i for i, note in enumerate(classes)}
+	ind_to_class = {i:note for i, note in enumerate(classes)}
 	return class_to_ind, ind_to_class
 
 # Encodes words to one hot numpy representation compatible with Keras LSTM 
